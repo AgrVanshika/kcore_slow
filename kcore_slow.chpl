@@ -1,5 +1,6 @@
 use List;
 
+// nv = number of vertices
 var nv = 50;
 var neighbor_complete: [1..nv] list(int);
 
@@ -113,6 +114,8 @@ proc k_core_slow() {
 }
 
 initGraph();
+
+// graph created from .mtx file
 addEdge(2, 1);
 addEdge(3, 1);
 addEdge(4, 1);
