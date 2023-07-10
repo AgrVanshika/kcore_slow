@@ -1,23 +1,19 @@
 use List;
 
-// nv = Number of vertices
 var nv = 50;
 var neighbor_complete: [1..nv] list(int);
 
-// Initialize the graph
 proc initGraph() {
   for v in 1..nv {
     neighbor_complete[v] = new list(int);
   }
 }
 
-// Add an edge between two vertices
 proc addEdge(u: int, v: int) {
   neighbor_complete[u].append(v);
   neighbor_complete[v].append(u);
 }
 
-// Remove a node from the graph
 proc removeNode(v: int) {
   neighbor_complete[v].clear();
   for u in 1..nv {
@@ -29,12 +25,10 @@ proc removeNode(v: int) {
   nv -= 1;
 }
 
-// Calculate the degree of a vertex
 proc degree(v: int): int {
   return neighbor_complete[v].size;
 }
 
-// Perform the k-core decomposition
 proc k_core_slow() {
   var peel: int = 2;
   var Q: list(int);
@@ -42,14 +36,12 @@ proc k_core_slow() {
 
   while nv > 0 {
    // writeln("nv value at the start ", nv);
-   // Create a color array to mark vertices
     var color: [1..nv] bool;
     color = false;
     var Vb: list(int);
 
-    // Find the vertices with degree <= peel
     for v in 1..nv {
-      // writeln("v in the for loop ", v);
+     // writeln("v in the for loop ", v);
       if degree(v) <= peel {
         color[v] = true;
         Vb.append(v);
@@ -59,25 +51,23 @@ proc k_core_slow() {
     if Vb.size > 0 {
       var Eb: list((int, int));
 
-      // Find the edges within Vb
       for u in 1..nv {
-	//writeln("nv ", nv);
+	    //writeln("nv ", nv);
         for v in neighbor_complete[u] {
-	// writeln("u ", u);
-	// writeln("points to");
-	// writeln("v ", v);
+      //	  writeln("u ", u);
+      //	  writeln("points to");
+      //	  writeln("v ", v);
           writeln("neighbour complete ", neighbor_complete[u]);
           writeln("color ", color[u]);
-	  writeln("color[v]" , color[v]);
+	        writeln("color[v]" , color[v]); 
           writeln("Vb ", Vb);	  
           if (Vb.contains(u)) && (neighbor_complete[u].contains(v)) && color[u] && color[v] {
             Eb.append((u, v));
-	    // writeln("Eb ", Eb);
-          }        
+      //	   writeln("Eb ", Eb);
+          }      
         }
       }
 
-      // Remove the edges in Eb and the vertices in Vb
       for (u, v) in Eb {
         var idx1 = neighbor_complete[u].find(v);
         var idx2 = neighbor_complete[v].find(u);
@@ -90,7 +80,7 @@ proc k_core_slow() {
       }
 
       for v in Vb {
-        // writeln("v being removed ", v);
+  //      writeln("v being removed ", v);
         removeNode(v);
       }
 
@@ -99,10 +89,9 @@ proc k_core_slow() {
       peel += 1;
       Q.clear();
     }
-     // writeln("test");
+//    writeln("test");
   }
 
-  // Create the induced subgraph
   // var induced_subgraph: list((int, int)) = [];
   var induced_subgraph: [1..nv] list(int);
   for v in 1..nv {
@@ -112,13 +101,17 @@ proc k_core_slow() {
     }
   }
 
-  // Z = Z[1..nv];
+//  var induced_subgraph: [1..nv] list(int);
+  //for v in 1..nv {
+    //for u in neighbor_complete[v] {
+      //induced_subgraph[v].append(u);
+    //}
+ // }
+  Z = Z[1..nv];
   return (induced_subgraph, peel);
 }
 
 initGraph();
-
-// graph created from .mtx file
 addEdge(2, 1);
 addEdge(3, 1);
 addEdge(4, 1);
