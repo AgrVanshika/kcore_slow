@@ -76,13 +76,6 @@ proc build_graph_from_file(file_path:"graph.txt") {
         return adjacency_list;
 }
 
-// COMMENT BACK IN: the stuff that does kcore_slow and remove node and finding degrees. 
-// NOT NEEDED: anything marked not needed. 
-// TODO FROM 4/17: understand the graph reading function above, get kcore_slow working, and clean up file :). 
-
-
-// NOT NEEDED: we will read graph in from a file. 
-
 proc removeNode(v: int) {
    adjacency_list[node_map[v]].clear();
    for u in 1..nodes_list.size {
@@ -191,7 +184,6 @@ proc degree(v: int): int {
 // }
 
 // initGraph();
-// NOT NEEDED: an addEdge() function is usually only for dynamic graphs... not our use case. 
 
 var graph_adjacency_list = build_graph_from_file(file_path);
 
